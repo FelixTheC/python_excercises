@@ -23,12 +23,12 @@ def sec_to_min(seconds: float) -> float:
     return float(f'{seconds/60:.2f}')
 
 
-def mp4_files_info(dir: str, pattern='*.mp4'):
-    files = glob.glob1(dir, pattern)
+def mp4_files_info(_dir: str, pattern='*.mp4'):
+    files = glob.glob1(_dir, pattern)
     if not files:
-        return f'No "{pattern.split(".")[-1]}" files found in {dir}'
+        return f'No "{pattern.split(".")[-1]}" files found in {_dir}'
     df = pd.DataFrame(data={'filename': files})
-    df['duration_sec'] = df['filename'].apply(lambda x: get_duration(dir, x))
+    df['duration_sec'] = df['filename'].apply(lambda x: get_duration(_dir, x))
     df['duration_min'] = df['duration_sec'].apply(lambda x: sec_to_min(x))
     details = [f"{i.title()} time: {getattr(df['duration_min'], i)():.4f}" for i in ['min', 'max', 'mean', 'std']]
     details.append(f"Total time: {strftime('%H:%M', gmtime(df['duration_sec'].sum()))}")
