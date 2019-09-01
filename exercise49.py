@@ -8,10 +8,10 @@ from enum import Enum
 
 
 class CardSuit(Enum):
-    HEARTS = 1
-    DIAMONDS = 2
-    CLUBS = 3
-    SPADES = 4
+    HEARTS = 0x01
+    DIAMONDS = 0x10
+    CLUBS = 0x20
+    SPADES = 0x30
 
 
 values = ['TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'JACK', 'QUEEN', 'KING', 'ACE']
@@ -24,14 +24,11 @@ class Card:
     def __init__(self, suite: CardSuit, value: CardValue):
         self._suite = suite
         self._value = value
+        self._total_val = value.value * suite.value
 
     @property
-    def get_suite(self) -> CardSuit:
-        return self._suite
-
-    @property
-    def get_value(self) -> CardValue:
-        return self._value
+    def get_total_val(self) -> int:
+        return self._total_val
 
     def __str__(self) -> str:
         return f'{self._value.name} of {self._suite.name}'
@@ -40,18 +37,18 @@ class Card:
         return f'({self._value.name},{self._suite.name})'
 
     # not really needed but to prepend unforeseen sideeffects its is better to implement it
-    # def __gt__(self, other) -> bool:
-    #     return (self._suite.value > other.get_suite.value) or (self._value.value > other.get_value.value)
+    def __gt__(self, other) -> bool:
+        return self.get_total_val > other.get_total_val
 
     def __lt__(self, other: 'Card') -> bool:
-        return (self._suite.value < other.get_suite.value) or (self._value.value < other.get_value.value)
+        return self.get_total_val < other.get_total_val
 
     def __eq__(self, other: 'Card') -> bool:
-        return (self._suite.value == other.get_suite.value) and (self._value.value == other.get_value.value)
+        return self.get_total_val == other.get_total_val
 
     # not really needed but to prepend unforeseen sideeffects its is better to implement it
-    # def __ne__(self, other) -> bool:
-    #     return (self._suite.value != other.get_suite.value) and (self._value.value != other.get_value.value)
+    def __ne__(self, other) -> bool:
+        return self.get_total_val != other.get_total_val
 
     def __getitem__(self, item: int) -> Enum:
         if item == 0:
