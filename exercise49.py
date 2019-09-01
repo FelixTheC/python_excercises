@@ -43,17 +43,17 @@ class Card:
     # def __gt__(self, other) -> bool:
     #     return (self._suite.value > other.get_suite.value) or (self._value.value > other.get_value.value)
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: 'Card') -> bool:
         return (self._suite.value < other.get_suite.value) or (self._value.value < other.get_value.value)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: 'Card') -> bool:
         return (self._suite.value == other.get_suite.value) and (self._value.value == other.get_value.value)
 
     # not really needed but to prepend unforeseen sideeffects its is better to implement it
     # def __ne__(self, other) -> bool:
     #     return (self._suite.value != other.get_suite.value) and (self._value.value != other.get_value.value)
 
-    def __getitem__(self, item) -> Enum:
+    def __getitem__(self, item: int) -> Enum:
         if item == 0:
             return self._suite.value
         else:
